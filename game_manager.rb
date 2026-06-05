@@ -61,4 +61,32 @@ class GameManager
     @ruby.show_status
     save_game
  end
+
+ def create_puzzle
+    puzzle = Reconstructor.new("オリジナルセリフのテキスト")
+    while puzzle.active?
+      puts "\n現在の復元配列：[#{puzzle.reconstructed.join}]" 
+      puts "未配置の断片チップ:" 
+  
+      puzzle.shuffled_chips.each_with_index do |chip, i|
+        puts "[#{i}]#{chip}" 
+      end
+
+      print "\n配置するチップのインデックスを指定してください>>>" 
+      idx = gets.chomp.to_i 
+
+      # ロジック側にインデックスを渡して処理してもらう
+      unless puzzle.pick_chip(idx)
+       puts "エラー：無効なインデックスです" 
+      end
+    end
+    # 最後に判定
+    if puzzle.success?
+      puts"\n>>復元成功：論理整合性を確認。試験用個体へ再同期します..."
+      # 成功時の進行処理
+    else
+      @ruby.pollution += 2 
+      puts">>再試行中・・・・・システム負荷によりノイズが混入しています。"
+    end
+ end
 end

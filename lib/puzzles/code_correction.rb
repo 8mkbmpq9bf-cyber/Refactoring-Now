@@ -1,4 +1,4 @@
-class Reconstructor
+class Code_correction
   def self.play(type,ruby)
     if type == :typo
       play_typo_puzzle(ruby)
